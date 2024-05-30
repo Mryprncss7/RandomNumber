@@ -1,31 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const generateBtn = document.getElementById('generateBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const numberDisplay = document.getElementById('numberDisplay');
-    let numbers = Array.from({ length: 100 }, (_, i) => i + 1);
-    const adminPassword = "admin123"; // Set a secure password
+// script.js
 
-    generateBtn.addEventListener('click', () => {
-        if (numbers.length === 0) {
-            numberDisplay.textContent = 'All numbers have been generated!';
-            generateBtn.disabled = true;
-            return;
-        }
-        
-        const randomIndex = Math.floor(Math.random() * numbers.length);
-        const randomNumber = numbers.splice(randomIndex, 1)[0];
-        numberDisplay.textContent = `Generated Number: ${randomNumber}`;
-    });
+// Set to store generated numbers
+let generatedNumbers = new Set();
 
-    restartBtn.addEventListener('click', () => {
-        const enteredPassword = prompt("Enter admin password to restart the generator:");
-        if (enteredPassword === adminPassword) {
-            numbers = Array.from({ length: 100 }, (_, i) => i + 1);
-            numberDisplay.textContent = 'Press the button to generate a number';
-            generateBtn.disabled = false;
-            alert("Generator has been restarted.");
-        } else {
-            alert("Incorrect password. Access denied.");
-        }
-    });
-});
+// Function to generate a random number
+function generateRandomNumber() {
+    let randomNumber;
+    do {
+        randomNumber = Math.floor(Math.random() * 100) + 1; // Adjust the range as needed
+    } while (generatedNumbers.has(randomNumber));
+
+    generatedNumbers.add(randomNumber);
+    document.getElementById('random-number').textContent = randomNumber;
+}
+
+// Function to reset the generator
+function resetGenerator() {
+    generatedNumbers.clear();
+    document.getElementById('random-number').textContent = '';
+    alert('Random number generator has been reset!');
+}
+
+// Generate a random number when the page loads
+window.onload = generateRandomNumber;

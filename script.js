@@ -3,6 +3,9 @@
 // Set to store generated numbers
 let generatedNumbers = new Set();
 
+// Admin password (in a real-world scenario, this should be handled more securely)
+const adminPassword = 'admin123';
+
 // Function to generate a random number
 function generateRandomNumber() {
     let randomNumber;
@@ -14,11 +17,16 @@ function generateRandomNumber() {
     document.getElementById('random-number').textContent = randomNumber;
 }
 
-// Function to reset the generator
+// Function to reset the generator with admin authentication
 function resetGenerator() {
-    generatedNumbers.clear();
-    document.getElementById('random-number').textContent = '';
-    alert('Random number generator has been reset!');
+    const enteredPassword = prompt('Enter admin password:');
+    if (enteredPassword === adminPassword) {
+        generatedNumbers.clear();
+        document.getElementById('random-number').textContent = '';
+        alert('Random number generator has been reset!');
+    } else {
+        alert('Unauthorized access. Incorrect password.');
+    }
 }
 
 // Generate a random number when the page loads
